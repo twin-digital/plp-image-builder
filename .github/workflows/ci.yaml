@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  # every git push (to any branch)
+  push:
+    branches:
+      - main
+  # pull‐request events *against* main, for the "merge-commit" build
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  deployments: write
+  packages: write
+  pull-requests: write
+
+jobs:
+  orchestrate:
+    uses: twin-digital/pipeline-platform/.github/workflows/main.yml@develop
