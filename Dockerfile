@@ -1,13 +1,8 @@
 ARG BUILDKIT_VERSION=0.21.1
 FROM moby/buildkit:v${BUILDKIT_VERSION} AS buildkit
 
-ENV BUILDKITD_FLAGS="--oci-worker-no-process-sandbox"
-
 VOLUME /build
 VOLUME /source
-
-RUN apk add --no-cache \
-  fuse-overlayfs
 
 # Create required directories
 RUN mkdir -p /source /build && chown 1000:1000 /source && chown 1000:1000 /build
