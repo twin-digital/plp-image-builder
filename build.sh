@@ -26,14 +26,15 @@ fi
 
 echo "Building image with BuildKit..."
 
+  # --opt label:org.opencontainers.image.source="${GIT_REPOSITORY_URL}" \
+  # --opt label:org.opencontainers.image.revision="${GIT_SHA}" \
+  # --opt label:org.opencontainers.image.created="${CREATED}" \
+
 CREATED="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 buildctl-daemonless.sh build \
   --frontend dockerfile.v0 \
   --local context=/source \
   --local dockerfile=/source \
-  --opt label:org.opencontainers.image.source="${GIT_REPOSITORY_URL}" \
-  --opt label:org.opencontainers.image.revision="${GIT_SHA}" \
-  --opt label:org.opencontainers.image.created="${CREATED}" \
   --output "type=oci,dest=${OUTPUT_TAR},\
 annotation.org.opencontainers.image.source=${GIT_REPOSITORY_URL},\
 annotation.org.opencontainers.image.revision=${GIT_SHA},\
