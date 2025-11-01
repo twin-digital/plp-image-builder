@@ -26,11 +26,15 @@ fi
 
 echo "Building image with BuildKit..."
 
+CREATED="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 buildctl-daemonless.sh build \
   --frontend dockerfile.v0 \
   --local context=/source \
   --local dockerfile=/source \
-  --output "type=oci,dest=${OUTPUT_TAR}"
+  --output "type=oci,dest=${OUTPUT_TAR},\
+annotation.org.opencontainers.image.source=${GIT_REPOSITORY_URL},\
+annotation.org.opencontainers.image.revision=${GIT_SHA},\
+annotation.org.opencontainers.image.created=${CREATED}"
 
 echo "✅ Successfully built and saved image to $OUTPUT_TAR"
 echo "Image size: $(du -h "$OUTPUT_TAR" | cut -f1)"
